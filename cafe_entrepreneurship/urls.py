@@ -3,11 +3,12 @@ from django.urls import path, include
 from .views import (
     AccountHolderViewSet, EditFirstBranchAccountHolderView, BranchWithAccountHolderView, AdditionalDetailWithBranchView,
     EcosystemCriteriaWithBranchView, EcoEcosystemCriteriaFsMatchesView, EcoEcosystemCriteriaTsMatchesView,
-    DeclinedFsBranchToggleView, DeclinedTsBranchToggleView
+    DeclinedFsBranchToggleView, DeclinedTsBranchToggleView, BranchViewSet
 )
 
 router = DefaultRouter()
-router.register(r'account-holders', AccountHolderViewSet, basename='account-holders')
+router.register(r'account-holders', AccountHolderViewSet, basename='account-holders'),
+router.register(r'branches', BranchViewSet, basename='branches')
 
 urlpatterns = [
     path('api/', include(router.urls)),

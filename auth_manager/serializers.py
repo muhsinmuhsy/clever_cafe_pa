@@ -7,6 +7,12 @@ import random
 from rest_framework.exceptions import ValidationError
 from cafe_entrepreneurship.models import Branch as CafeEntrepreneurshipBranch
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile

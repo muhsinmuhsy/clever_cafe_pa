@@ -164,3 +164,28 @@ class TestAuthView(APIView):
     def get(self, requset):
         user = requset.user
         return Response({'message':'your authed', 'user': str(user.username)})
+    
+    
+class UserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        profile = user.profile
+        response_data = {
+            'user': {
+                'username': user.username,
+                'email': user.email,
+                'phone_number': user.phone_number,
+            },
+            'profile': {
+                'first_name': profile.first_name,
+                'last_name': profile.last_name,
+                'state': profile.state,
+                'post_code': profile.post_code,
+                'subscription_type': profile.subscription_type,
+            }
+        }
+        return Response({'message': 'Authenticated', 'data': response_data})
+    
+        

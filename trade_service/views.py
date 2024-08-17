@@ -85,6 +85,19 @@ class AccountHolderWithBranchIdView(APIView):
 #     "post_code": ""
 # }
 
+class BranchViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = BranchSerializer
+    
+    def get_queryset(self):
+        return Branch.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
 class BranchWithAccountHolderIdView(APIView):
     permission_classes = [IsAuthenticated]
 
