@@ -174,6 +174,7 @@ class UserView(APIView):
         profile = user.profile
         response_data = {
             'user': {
+                'id': user.id,
                 'username': user.username,
                 'email': user.email,
                 'phone_number': user.phone_number,
