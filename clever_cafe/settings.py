@@ -212,6 +212,8 @@ REST_FRAMEWORK = {
     )
 }
 
+JWT_SIGNING_KEY = env('JWT_SIGNING_KEY')
+
 # rest_framework_simplejwt
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
@@ -221,6 +223,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',
     'VERIFYING_KEY': None,
+    'SIGNING_KEY': JWT_SIGNING_KEY,
     'AUDIENCE': None,
     'ISSUER': None,
     'JWK_URL': None,
