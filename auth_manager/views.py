@@ -177,6 +177,9 @@ class UserView(APIView):
                 'username': user.username,
                 'email': user.email,
                 'phone_number': user.phone_number,
+                'is_trade_service_user': user.is_trade_service_user,
+                'is_food_service_user': user.is_food_service_user,
+                'is_cafe_entrepreneurship_user': user.is_cafe_entrepreneurship_user
             },
             'profile': {
                 'first_name': profile.first_name,
