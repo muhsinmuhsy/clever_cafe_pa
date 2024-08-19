@@ -192,4 +192,63 @@ class UserView(APIView):
         }
         return Response({'message': 'Authenticated', 'data': response_data})
     
+class CeListView(APIView):
+    
+    def get(self, request):
+        ce_users = User.objects.filter(is_cafe_entrepreneurship_user=True)
+        response_data = []
+        
+        for user in ce_users:
+            profile = user.profile
+            response_data.append({
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    'phone_number': user.phone_number,
+                    # 'is_trade_service_user': user.is_trade_service_user,
+                    # 'is_food_service_user': user.is_food_service_user,
+                    'is_cafe_entrepreneurship_user': user.is_cafe_entrepreneurship_user
+                },
+                'profile': {
+                    'first_name': profile.first_name,
+                    'last_name': profile.last_name,
+                    'state': profile.state,
+                    'post_code': profile.post_code,
+                    'subscription_type': profile.subscription_type,
+                }
+            })
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+
+class UserDetalView(APIView):
+    def get(self, request, user_id):
+        try: 
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'message': 'user doesnot exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        profile = user.profile
+        
+        response_data = {
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    'phone_number': user.phone_number,
+                    'is_trade_service_user': user.is_trade_service_user,
+                    'is_food_service_user': user.is_food_service_user,
+                    'is_cafe_entrepreneurship_user': user.is_cafe_entrepreneurship_user
+                },
+                'profile': {
+                    'first_name': profile.first_name,
+                    'last_name': profile.last_name,
+                    'state': profile.state,
+                    'post_code': profile.post_code,
+                    'subscription_type': profile.subscription_type,
+                }
+            }
+    
+        return Response(response_data, status=status.HTTP_200_OK)
+        
         

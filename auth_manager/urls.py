@@ -16,4 +16,6 @@ urlpatterns = [
     path('api/test/auth/', views.TestAuthView.as_view(), name='test-auth'),
     
     path('api/user/detail/', views.UserView.as_view(), name='user-view'),
+    path('api/ceuser/list/', views.CeListView.as_view()), 
+    path('api/user/<int:user_id>/detail/', views.UserDetalView.as_view())
 ]
