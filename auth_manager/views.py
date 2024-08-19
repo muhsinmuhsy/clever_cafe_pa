@@ -221,33 +221,38 @@ class CeListView(APIView):
         
         return Response(response_data, status=status.HTTP_200_OK)
 
-class UserDetalView(APIView):
+class UserDetailView(APIView):
     def get(self, request, user_id):
-        try: 
+        try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return Response({'message': 'user doesnot exist'}, status=status.HTTP_400_BAD_REQUEST)
-
-        profile = user.profile
+            return Response({'message': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
         
-        response_data = {
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'phone_number': user.phone_number,
-                    'is_trade_service_user': user.is_trade_service_user,
-                    'is_food_service_user': user.is_food_service_user,
-                    'is_cafe_entrepreneurship_user': user.is_cafe_entrepreneurship_user
-                },
-                'profile': {
-                    'first_name': profile.first_name,
-                    'last_name': profile.last_name,
-                    'state': profile.state,
-                    'post_code': profile.post_code,
-                    'subscription_type': profile.subscription_type,
-                }
+        # Handle the case where the user might not have a profile
+        profile = getattr(user, 'profile', None)
+        if profile is None:
+            profile_data = {}  # Or handle this case appropriately
+        else:
+            profile_data = {
+                'first_name': profile.first_name,
+                'last_name': profile.last_name,
+                'state': profile.state,
+                'post_code': profile.post_code,
+                'subscription_type': profile.subscription_type,
             }
+
+        response_data = {
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'phone_number': user.phone_number,
+                'is_trade_service_user': user.is_trade_service_user,
+                'is_food_service_user': user.is_food_service_user,
+                'is_cafe_entrepreneurship_user': user.is_cafe_entrepreneurship_user
+            },
+            'profile': profile_data
+        }
     
         return Response(response_data, status=status.HTTP_200_OK)
         
